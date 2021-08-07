@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate')%> 
+
+<h1>Update Product Details</h1>
+
+
+    <form action="/product/<%=product._id%>/update?_method=PUT" method="POST">
+
+        <label for='name'>Name of the product</label><br>
+        <input type='text' id='name' placeholder='name' name='name' value='<%=product.name%>'><br><br>
+
+        <label for='description'>Description</label><br>
+        <textarea id='description' name='description'><%=product.description%></textarea><br><br>
+
+        <label for='startPrice'>Starting Price</label><br>
+        <input type='number' id='startPrice' name='startPrice' placeholder='startPrice' value='<%=product.startPrice%>'><br><br>
+        <button type='submit'>Submit</button>
+    
+    </form>
+
+    <br><br>
+
+    <a href='/product/<%=product._id%>/show'>Back to your product page</a>

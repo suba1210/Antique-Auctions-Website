@@ -1,0 +1,19 @@
+<% layout('layouts/boilerplate')%> 
+
+
+    <h1>Welcome to Ancient Auctions</h1>
+
+    <a href='/newproduct'>Add new product</a>
+
+    <h3>All products for auction!</h3>
+
+
+    <ul>
+
+    <% for(product of products){ %>
+        
+        <li><a href='/product/<%=product._id%>/show'><%=product.name%></a></li><br>
+
+    <% } %>
+
+    </ul>

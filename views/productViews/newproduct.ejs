@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate')%> 
+
+    <h1>Add new product</h1>
+
+
+    <form action="/newproduct" method="POST" enctype='multipart/form-data'>
+
+        <label for='name'>Name of the product</label><br>
+        <input type='text' id='name' placeholder='name' name='name'><br><br>
+
+        <label for='description'>Description</label><br>
+        <textarea id='description' name='description'></textarea><br><br>
+
+        <label for='startPrice'>Starting Price</label><br>
+        <input type='number' id='startPrice' name='startPrice' placeholder='startPrice'><br><br>
+
+        <label for='file'>Image of the product</label><br>
+        <input type="file" id="file" name="image" required><br><br>
+
+        <button type='submit'>Submit</button>
+    
+    </form>
+
+
+    <a href='/dashboard'>Back to dashboard</a>
+
