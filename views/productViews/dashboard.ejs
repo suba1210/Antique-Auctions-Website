@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate')%> 
 
 
-    <h1>Welcome to Ancient Auctions</h1>
+    <h1>Hello <%=currentUser.username%>  Welcome to Ancient Auctions</h1>
 
     <a href='/newproduct'>Add new product</a>
 
@@ -17,3 +17,5 @@
     <% } %>
 
     </ul>
+
+    <a href='/logout'>Logout</a>

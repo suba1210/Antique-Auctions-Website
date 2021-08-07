@@ -4,6 +4,7 @@ const Product = require('../models/productModel')
 const User = require('../models/userModel')
 const path = require('path');
 const fs = require('fs');
+const {checkAuth} =require('../middlewares/checkauth');
 
 const multer = require('multer');
 
@@ -35,11 +36,11 @@ function checkFileType(file,cb){
 }
 
 
-router.get('/newproduct',(req,res)=>{
+router.get('/newproduct',checkAuth,(req,res)=>{
     res.render('productViews/newproduct');
 })
 
-router.post('/newproduct', (req,res)=>{
+router.post('/newproduct',checkAuth, async(req,res)=>{
     upload(req,res,(err) => {
         if(err){
             res.send('error');
@@ -55,35 +56,40 @@ router.post('/newproduct', (req,res)=>{
                 contentType: 'image/png'
             } } )           
             product.save();
-            res.render('productViews/showproduct', { product });
+            req.flash("success_msg", "Successfully saved your product!");
+            res.redirect(`/product/${product._id}/show`);
         }
     });
 });
 
-router.get('/dashboard', async(req,res)=>{
-    const products = await Product.find();
-    res.render('productViews/dashboard',{products});
+router.get('/dashboard',checkAuth, async(req,res)=>{
+
+    const products = await Product.find(); 
+    const currentUser = await User.findById(req.session.user_id);
+    res.render('productViews/dashboard',{products,currentUser});
+    
 })
 
-router.get('/product/:id/show',async(req,res)=>{
+router.get('/product/:id/show',checkAuth,async(req,res)=>{
     const product = await Product.findById(req.params.id);
     res.render('productViews/showproduct',{product});
 })
 
-router.get('/product/:id/update', async(req,res)=>{
+router.get('/product/:id/update',checkAuth, async(req,res)=>{
     const product = await Product.findById(req.params.id);
     res.render('productViews/updateproduct',{product});
 })
 
-router.put('/product/:id/update',async(req,res)=>{
+router.put('/product/:id/update',checkAuth,async(req,res)=>{
     const name = req.body.name;
     const description = req.body.description;
     const startPrice = req.body.startPrice; 
     const product = await Product.findByIdAndUpdate(req.params.id, {name,description,startPrice});
+    req.flash("success_msg", "Successfully updated your product!");
     res.redirect(`/product/${req.params.id}/show`)
 })
 
-router.delete('/product/:id/delete',async(req,res)=>{
+router.delete('/product/:id/delete',checkAuth,async(req,res)=>{
     await Product.findByIdAndDelete(req.params.id);
     res.redirect('/dashboard');
 })
