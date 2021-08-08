@@ -1,0 +1,82 @@
+<% layout('layouts/boilerplate')%> 
+
+
+    <img src="data:image/<%=product.image.contentType %>;base64, 
+    <%=product.image.data.toString('base64') %>" width="200" height="200" alt="Image"> 
+    <h2><%=product.name%></h2>
+    <p>Owner : <%=product.owner.username%></p>
+    <p>Tag : <%=product.tag%> </p>
+    <p>Description: <%=product.description%></p>
+    <p>Starting price : <%=product.startPrice%> </p>
+
+    <% if(product.bids.length!=0){ %> 
+
+        Highest Bidder : <%=product.highestBid.owner.username%>
+
+        <br><br> 
+
+        Highest Bid Price : <%=product.highBidPrice%> 
+
+        <br><br>
+
+    <% } %> 
+
+    
+
+    <% let deadlineDate= product.bidDeadline %> 
+    <% let date = new Date(deadlineDate),month = ("0" + (date.getMonth() + 1)).slice(-2),day = ("0" + date.getDate()).slice(-2); %> 
+    <% date = [day,month,date.getFullYear()].join("-") %> 
+    <% let time = new Date(deadlineDate) , hour = ("0" + time.getHours()).slice(-2) ,minute = ("0" + time.getMinutes()).slice(-2) %> 
+    <% time = [hour, minute].join(":") %> 
+
+    <p>Deadline for bidding : <%=date%> at <%=time%> (Indian Standard Time) </p>
+
+    <br>
+
+    <% if(product.canBid == true){ %>
+        
+        <a href='/product/<%=product._id%>/endbid'>End Bidding</a>
+        
+    <% } else { %> 
+
+        <p>Make sure to collect Money from the highest bidder </p>
+
+    <% } %> 
+
+
+
+
+    <a href='/product/<%=product._id%>/update'>Edit product details</a>
+
+    <br><br>
+
+    <form action='/product/<%=product._id%>/delete?_method=DELETE' method='POST'>
+    
+    <button>DELETE</button>
+    
+    </form>
+
+    <br><br>
+
+
+    <a href='/dashboard'>Back to dashboard</a>
+
+    <br><br>
+
+    <h4>Bidding History</h4>
+
+    <% if(product.bids.length==0){ %> 
+        <p> No one has bidded for this product yet! </p>
+    <% } else { %>
+        <ul>
+
+            <% for(let i= product.bids.length-1 ; i>=0 ; i--){ %> 
+                
+                <li><%=product.bids[i].owner.username%> has bidded this product for rupees <%=product.bids[i].price%> at <%=product.bids[i].createdAt%></li>
+            
+            <% } %> 
+
+        </ul>
+        
+    <% } %> 
+

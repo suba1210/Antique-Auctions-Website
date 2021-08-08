@@ -6,21 +6,76 @@
     <form action="/newproduct" method="POST" enctype='multipart/form-data'>
 
         <label for='name'>Name of the product</label><br>
-        <input type='text' id='name' placeholder='name' name='name'><br><br>
+        <input type='text' id='name' placeholder='name' name='name' required><br><br>
 
         <label for='description'>Description</label><br>
-        <textarea id='description' name='description'></textarea><br><br>
+        <textarea id='description' name='description' required></textarea><br><br>
 
-        <label for='startPrice'>Starting Price</label><br>
-        <input type='number' id='startPrice' name='startPrice' placeholder='startPrice'><br><br>
+
+        <label for='tag'>Select tag for your product:</label><br>
+        <select id='tag' name='tag' required>
+
+
+            <option value="Ancient Sculptures">Ancient Sculptures</option>
+            <option value='Antique Jewelry'>Antique Jewelry</option>
+            <option value='Ancient Clocks'>Ancient Clocks</option>
+            <option value='Ancient utencils'>Ancient utencils</option>
+            <option value='Porcelain and Glass antiques'>Porcelain and Glass antiques</option>
+            <option value='Old Paintings'>Old Paintings</option>
+            <option value='Old coin collections'>Old coin collections</option>
+            <option value='General ancient collections'>General ancient collections</option>
+
+        </select>
+
+        <br><br>
 
         <label for='file'>Image of the product</label><br>
-        <input type="file" id="file" name="image" required><br><br>
+        <input type="file" id="file" name="image" onchange="return fileValidation()" required><br><br>
+
+
+        <label for='startPrice'>Starting Price</label><br>
+        <input type='number' id='startPrice' name='startPrice' placeholder='startPrice' min=10 required><br><br>
+
+        <% let d = new Date()%>
+        <% let n = d.toISOString()%>
+        <% n= n.slice(0,-8)%>
+        <label for='deadline'>Set Deadline for bidding : </label>   
+        <input id='deadline' type="datetime-local" name='deadline' onchange="return dateValidation()"  min=<%=n%>><br><br>
+
 
         <button type='submit'>Submit</button>
     
     </form>
 
+    <script>
+        function fileValidation() {
+            let fileInput = document.getElementById('file');
+            let filePath = fileInput.value;
+            if(filePath!=''){
+            let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type! Only files with .jpg, .jpeg, .png or .gif are allowed');
+                fileInput.value = '';
+                return false;
+            } 
+          }
+                  
+        }
+        function dateValidation(){
+            let deadline = document.getElementById('deadline');
+            let deadlineDate = deadline.value;
+            if(deadlineDate!=''){
+                let now = Date.now();
+                let deadlineFormat = new Date(deadlineDate);
+            if(deadlineFormat<now){
+                alert('Deadline must be greater than present time!');
+                deadline.value='';
+                return false;
+            }
+            }
+        }
+    </script>
 
+    <br><br>
     <a href='/dashboard'>Back to dashboard</a>
 

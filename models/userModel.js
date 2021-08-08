@@ -8,8 +8,15 @@ const UserSchema = new Schema({
         unique : true
     },
     password : {
-        type : String,
-    }
+        type : String
+    },
+    email : {
+        type : String
+    },
+    products : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Product'
+    }]
 });
 
 

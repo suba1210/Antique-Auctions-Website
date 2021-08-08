@@ -4,10 +4,16 @@ const methodOverride = require('method-override');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
+const flash = require('connect-flash');
+
 const productRoutes = require('./Routes/productRoutes');
 const userRoutes = require('./Routes/userRoutes');
 const authRoutes = require('./Routes/authRoutes');
-const flash = require('connect-flash');
+const bidRoutes = require('./Routes/bidRoutes');
+
+
+
+
 
 mongoose.connect('mongodb://localhost:27017/spidertask3', {
     useNewUrlParser: true,
@@ -56,10 +62,11 @@ app.use((req,res,next)=>{
     next()
 })
 
-
+app.use(bidRoutes);
 app.use(productRoutes);
 app.use(userRoutes);
 app.use(authRoutes);
+
 
 
 app.listen(3000, ()=>{

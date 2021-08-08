@@ -14,7 +14,8 @@ router.post('/register',async(req,res)=>{
     const user = await User.findOne({username});
     if(!user){
         const hash = await  bcrypt.hash(password,8);
-        const newUser = new User({username,password:hash});     
+        const newUser = new User({username,password:hash}); 
+        await newUser.save();    
         req.flash("success_msg", "Successfully registered, You can login now!");
         res.redirect('/login');
     } else{
@@ -32,7 +33,7 @@ router.post('/login', async(req,res)=>{
     const {username , password} = req.body;
     const user = await User.findOne({username});
     if(!user){
-        req.flash("error_msg", "Invalid username or password");
+        req.flash("error_msg", "Incorrect username or password");
         res.redirect('/login');
     }
     else{

@@ -14,7 +14,34 @@ const ProductSchema = new Schema({
     image : {
         data : Buffer,
         contentType : String
+    },
+    tag : {
+        type : String
+    },
+    owner : {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    highBidPrice : { // this is just for setting max value in forms
+        type : Number
+    },
+    highestBid : {
+        type: Schema.Types.ObjectId,
+        ref: 'Bid'
+    },
+    bids : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Bid'
+    }],
+    canBid : {
+        type : Boolean,
+        default : true
+    },
+    bidDeadline : {
+        type : Date
     }
+},{
+    timestamps: true
 });
 
 

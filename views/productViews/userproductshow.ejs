@@ -1,0 +1,70 @@
+<% layout('layouts/boilerplate')%> 
+
+
+    <img src="data:image/<%=product.image.contentType %>;base64, 
+    <%=product.image.data.toString('base64') %>" width="200" height="200" alt="Image"> 
+    <h2><%=product.name%></h2>
+    <p>Owner : <%=product.owner.username%></p>
+    <p>Tag : <%=product.tag%> </p>
+    <p>Description: <%=product.description%></p>
+    <p>Starting price : <%=product.startPrice%> </p>
+    <% if(product.bids.length!=0){ %> 
+
+        Highest Bidder : <%=product.highestBid.owner.username%>
+
+        <br><br> 
+
+        Current Highest Bidding Price : <%=product.highBidPrice%> 
+
+    <% } %> 
+
+
+
+    <br><br>
+
+    <a href='/dashboard'>Back to dashboard</a>
+
+    <br><br>
+
+    <% if(product.canBid == true){ %>
+
+    
+
+    <form action='/product/<%=product._id%>/bid/<%=currentUser._id%>' method="POST" >
+
+        <label for='bidamount'>Bid for the product</label>
+        <input type='number' id='bidamount' name='price' min='<%=(product.highBidPrice)+1%>' placeholder='Bid Amount' required>
+
+        <br><br>
+
+        <button type='submit'>Bid for the product</button>
+
+    </form>
+
+    <% } else { %>
+        
+        Bidding for this product had ended!
+        
+    <% } %> 
+
+    <br><br>
+
+    <h4>Bidding History</h4>
+
+    <% if(product.bids.length==0){ %> 
+        <p> No one has bidded for this product yet! </p>
+    <% } else { %>
+        <ul>
+
+            <% for(let i= product.bids.length-1 ; i>=0 ; i--){ %> 
+                
+                <li><%=product.bids[i].owner.username%> has bidded this product for rupees <%=product.bids[i].price%> at <%=product.bids[i].createdAt%>   </li>
+            
+            <% } %> 
+
+        </ul>
+        
+    <% } %> 
+
+
+  
