@@ -10,11 +10,11 @@ router.get('/register', (req,res)=>{
 })
 
 router.post('/register',async(req,res)=>{
-    const {password,username} = req.body;
+    const {password,username,email,age} = req.body;
     const user = await User.findOne({username});
     if(!user){
         const hash = await  bcrypt.hash(password,8);
-        const newUser = new User({username,password:hash}); 
+        const newUser = new User({username,password:hash,email,age}); 
         await newUser.save();    
         req.flash("success_msg", "Successfully registered, You can login now!");
         res.redirect('/login');

@@ -74,7 +74,12 @@ router.post('/newproduct',checkAuth, async(req,res)=>{
 
 router.get('/dashboard',checkAuth, async(req,res)=>{
 
-    const products = await Product.find({}).sort('-highBidPrice'); 
+    const products = await Product.find({}).sort('-highBidPrice').populate('owner').populate({
+        path : 'highestBid',
+        populate : {
+            path : 'owner'
+        }
+    });
     const currentUser = await User.findById(req.session.user_id);
     res.render('productViews/dashboard',{products,currentUser});
     

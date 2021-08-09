@@ -1,21 +1,66 @@
 <% layout('layouts/boilerplate')%> 
+<style>
+    #head{
+        color:blue;
+        text-align: center;
+    }
+    .card{
+        display:flex;
+        flex-direction: row;
+        border : 0.5px solid grey;
+        height:280px;
+        max-width: 600px;
+        margin: 30px auto;
+        padding:20px;
+        text-align:center;
+        box-shadow: 0 4px 8px 0 rgba(226, 18, 18, 0.2), 0 6px 20px 0 rgba(226, 9, 9, 0.19);
+    }
+    .cardImage{
+        margin:auto 0;
+    }
+    .cardDesc{
+        float:right;
+        margin :0 auto;
+
+    }
+    .cardDesc>p,button{
+        margin : 10px 0;
+    }
+
+</style>
 
 
-    <h1>Hello <%=currentUser.username%>  Welcome to Spider Antique Auctions</h1>
+    <h3 class="mb-3 mt-4 text-center">Antiques in Auction</h3> <hr><br>
 
-    <a href='/newproduct'>Add new product</a>
-
-    <h3>All products for auction!</h3>
-
-
-    <ul>
 
     <% for(product of products){ %>
-        
-        <li><a href='/product/<%=product._id%>/show'><%=product.name%></a></li><br>
+
+        <div class='card'>
+
+            <div class='cardImage'>
+                <img src="data:image/<%=product.image.contentType %>;base64, 
+                <%=product.image.data.toString('base64') %>" width="200" height="200" alt="Image"> 
+            </div>
+
+            <div class='cardDesc' >
+                <p style="font-weight: bold;"><%=product.name%></p>
+                <p><span style="font-weight: bold;">Tag : </span><%=product.tag%></p>
+                <p><span style="font-weight: bold;">Current Bidding Price : </span><%=product.highBidPrice%> </p>
+                <% if(!product.highestBid){ %>
+                   
+                    <p>No one bidded this product yet!</p>
+                
+                <% } else {%>
+                    
+                    <p><span style="font-weight: bold;">Highest Bidder : </span><%=product.highestBid.owner.username%> </p>
+
+                <% } %> 
+
+                <a role="button" style='background-color:rgb(238, 96, 111);border:0px;margin-top: 8px;' href='/product/<%=product._id%>/show' class="btn btn-primary">View Product</a>
+            </div>
+
+        </div>
 
     <% } %>
 
-    </ul>
 
-    <a href='/logout'>Logout</a>

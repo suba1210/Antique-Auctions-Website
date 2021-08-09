@@ -13,6 +13,9 @@ const UserSchema = new Schema({
     email : {
         type : String
     },
+    age : {
+        type : Number
+    },
     products : [{
         type: Schema.Types.ObjectId,
         ref: 'Product'
