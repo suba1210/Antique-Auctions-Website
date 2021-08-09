@@ -1,21 +1,45 @@
 <% layout('layouts/boilerplate')%> 
 
-    <h1>Add new product</h1>
+
+<style>
+
+    .form{
+        max-width: 700px;
+        margin:0 auto;
+    }
+    input{
+        width:100%;
+        height:40px;
+        padding:10px;
+    
+    }
+    label{
+        font-weight: bold;
+    }
+    .centeralign{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
 
 
-    <form action="/newproduct" method="POST" enctype='multipart/form-data'>
+</style>
+
+    <h3 style='text-align: center;margin:35px;color:rgb(238, 96, 111)'>Add your Antiques for Auction</h3>
+
+
+    <form class='form' action="/newproduct" method="POST" enctype='multipart/form-data'>
 
         <label for='name'>Name of the product</label><br>
-        <input type='text' id='name' placeholder='name' name='name' required><br><br>
+        <input type='text' id='name' placeholder='Product Name' name='name' required><br><br>
 
         <label for='description'>Description</label><br>
-        <textarea id='description' name='description' required></textarea><br><br>
+        <textarea id='description' name='description' style="width: 100%;padding:10px; max-width: 100%;" placeholder="Tell customers about your product..." required></textarea><br><br>
 
-
+        
         <label for='tag'>Select tag for your product:</label><br>
+        
         <select id='tag' name='tag' required>
-
-
             <option value="Ancient Sculptures">Ancient Sculptures</option>
             <option value='Antique Jewelry'>Antique Jewelry</option>
             <option value='Ancient Clocks'>Ancient Clocks</option>
@@ -24,17 +48,19 @@
             <option value='Old Paintings'>Old Paintings</option>
             <option value='Old coin collections'>Old coin collections</option>
             <option value='General ancient collections'>General ancient collections</option>
-
-        </select>
-
-        <br><br>
+        </select><br><br>
 
         <label for='file'>Image of the product</label><br>
         <input type="file" id="file" name="image" onchange="return fileValidation()" required><br><br>
 
 
         <label for='startPrice'>Starting Price</label><br>
-        <input type='number' id='startPrice' name='startPrice' placeholder='startPrice' min=10 required><br><br>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">₹</span>
+            <input style='width:660px;height:40px;' type='number' id='startPrice' name='startPrice' placeholder='Starting Price must greater than ₹ 10 ' min=10  required>  
+        </div>
+
 
         <% let d = new Date()%>
         <% let n = d.toISOString()%>
@@ -42,8 +68,9 @@
         <label for='deadline'>Set Deadline for bidding : </label>   
         <input id='deadline' type="datetime-local" name='deadline' onchange="return dateValidation()"  min=<%=n%>><br><br>
 
-
-        <button type='submit'>Submit</button>
+        <div class='centeralign'>
+            <button style='width:200px' class='btn btn-danger'  type='submit'>Add Product</button>
+        </div>
     
     </form>
 
@@ -78,4 +105,7 @@
 
     <br><br>
     <a href='/dashboard'>Back to dashboard</a>
+
+
+
 

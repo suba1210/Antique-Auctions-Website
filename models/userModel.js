@@ -16,6 +16,9 @@ const UserSchema = new Schema({
     age : {
         type : Number
     },
+    gender : {
+        type : String
+    },
     products : [{
         type: Schema.Types.ObjectId,
         ref: 'Product'

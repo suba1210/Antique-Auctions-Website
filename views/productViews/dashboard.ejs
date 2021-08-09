@@ -32,6 +32,7 @@
 
     <h3 class="mb-3 mt-4 text-center">Antiques in Auction</h3> <hr><br>
 
+    <% if(products.length!=0){ %> 
 
     <% for(product of products){ %>
 
@@ -45,7 +46,7 @@
             <div class='cardDesc' >
                 <p style="font-weight: bold;"><%=product.name%></p>
                 <p><span style="font-weight: bold;">Tag : </span><%=product.tag%></p>
-                <p><span style="font-weight: bold;">Current Bidding Price : </span><%=product.highBidPrice%> </p>
+                <p><span style="font-weight: bold;">Current Bidding Price : </span>₹ <%=product.highBidPrice%> </p>
                 <% if(!product.highestBid){ %>
                    
                     <p>No one bidded this product yet!</p>
@@ -62,5 +63,13 @@
         </div>
 
     <% } %>
+
+    <% } else { %> 
+
+        <p style='color:rgb(238, 96, 111);text-align: center;'>Currently no products are in Auction! </p>
+
+        <p style='color:rgb(238, 96, 111);text-align: center;'>Click on <strong>Add New</strong> to add your Antiques for Auction!</p>
+
+    <% } %> 
 
 

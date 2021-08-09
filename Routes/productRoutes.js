@@ -128,7 +128,7 @@ router.put('/product/:id/update',checkAuth,async(req,res)=>{
     res.redirect(`/product/${req.params.id}/show`)
 })
 
-router.delete('/product/:id/delete',checkAuth,async(req,res)=>{
+router.get('/product/:id/delete',checkAuth,async(req,res)=>{
     const product = await Product.findById(req.params.id).populate('owner');
     const owner = await User.findById(product.owner._id);
     const index = await owner.products.indexOf(product._id);

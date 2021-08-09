@@ -1,0 +1,101 @@
+<% layout('layouts/boilerplate')%> 
+
+<style>
+
+    .card{
+        display:flex;
+        flex-direction: row;
+        border : 0.5px solid grey;
+        height:280px;
+        max-width: 600px;
+        margin: 30px auto;
+        padding:20px;
+        text-align:center;
+        box-shadow: 0 4px 8px 0 rgba(226, 18, 18, 0.2), 0 6px 20px 0 rgba(226, 9, 9, 0.19);
+    }
+    .cardImage{
+        margin:auto 0;
+    }
+    .cardDesc{
+        float:right;
+        margin :auto;
+        word-wrap: break-word;
+
+    }
+    .cardDesc>p,button{
+        margin : 10px 0;
+        
+    }
+    table{
+        max-width:900px;
+        margin:0 auto;
+    }
+
+        
+
+
+
+</style>
+<br>
+<div class='card'>
+
+    <div class='cardImage'>
+        
+        <% if(currentUser.gender ==="female"){ %>
+            <img class="avatar" width="200" height="200" alt="Image" src="/assets/woman.jpg">
+        <% } else{%>
+            <img class="avatar" width="200" height="200" alt="Image" src="/assets/man.jpg">
+        <% } %> 
+        
+    </div>
+
+    <div class='cardDesc'>
+
+        <p><span style='color:rgb(238, 96, 111);font-weight:bold'>Username : </span><%=currentUser.username%></p>
+        <p><span style='color:rgb(238, 96, 111);font-weight:bold'>Email Id : </span><%=currentUser.email%> </p>
+        <p><span style='color:rgb(238, 96, 111);font-weight:bold'>Age : </span><%=currentUser.age%> </p>
+        <p><span style='color:rgb(238, 96, 111);font-weight:bold'>Your Products : </span><%=currentUser.products.length%> </p>
+        
+    </div>
+
+</div><br><br>
+
+<% if(currentUser.products.length!=0) { %> 
+
+    <table class="table table-danger table-striped">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Product</th>
+              <th scope="col">Starting Price (in ₹)  </th>
+              <th scope="col">Current Bidding Price (in ₹)</th>    
+              <th scope="col">Product added at</th>
+              
+            </tr>
+        </thead>
+         
+            <% for(let i=0;i<currentUser.products.length;i++){ %>
+
+                <tbody> 
+                    <tr>
+                        <th scope="row"><%=i%> </th>
+                        <td><%=currentUser.products[i].name%> </td>
+                        <td><%=currentUser.products[i].startPrice%></td>
+                        <td><%=currentUser.products[i].highBidPrice%></td>
+                        <td><%=currentUser.products[i].createdAt.toLocaleDateString()%> at <%=currentUser.products[i].createdAt.toLocaleTimeString()%></td>
+                    </tr>
+                </tbody>
+
+          <% } %> 
+    
+    </table>
+
+<% } %> 
+
+
+
+
+
+
+
+

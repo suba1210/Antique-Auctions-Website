@@ -1,82 +1,152 @@
 <% layout('layouts/boilerplate')%> 
 
+<style>
 
-    <img src="data:image/<%=product.image.contentType %>;base64, 
-    <%=product.image.data.toString('base64') %>" width="200" height="200" alt="Image"> 
-    <h2><%=product.name%></h2>
-    <p>Owner : <%=product.owner.username%></p>
-    <p>Tag : <%=product.tag%> </p>
-    <p>Description: <%=product.description%></p>
-    <p>Starting price : <%=product.startPrice%> </p>
+    .card{
+        display:flex;
+        flex-direction: row;
+        border : 0.5px solid grey;
+        height:fit-content;
+        max-width: 850px;
+        margin: 30px auto;
+        padding:20px;
+        text-align:center;
+        box-shadow: 0 4px 8px 0 rgba(226, 18, 18, 0.2), 0 6px 20px 0 rgba(226, 9, 9, 0.19);
+    }
+    .cardImage{
+        margin:auto 0;
+    }
+    .cardDesc{
+        float:right;
+        margin :0 auto;
 
-    <% if(product.bids.length!=0){ %> 
-
-        Highest Bidder : <%=product.highestBid.owner.username%>
-
-        <br><br> 
-
-        Highest Bid Price : <%=product.highBidPrice%> 
-
-        <br><br>
-
-    <% } %> 
-
-    
-
-    <% let deadlineDate= product.bidDeadline %> 
-    <% let date = new Date(deadlineDate),month = ("0" + (date.getMonth() + 1)).slice(-2),day = ("0" + date.getDate()).slice(-2); %> 
-    <% date = [day,month,date.getFullYear()].join("-") %> 
-    <% let time = new Date(deadlineDate) , hour = ("0" + time.getHours()).slice(-2) ,minute = ("0" + time.getMinutes()).slice(-2) %> 
-    <% time = [hour, minute].join(":") %> 
-
-    <p>Deadline for bidding : <%=date%> at <%=time%> (Indian Standard Time) </p>
-
-    <br>
-
-    <% if(product.canBid == true){ %>
+    }
+    .buttons{
+        display: flex;
+        flex-direction: row;
+    }
+    .buttons> *{
+        margin:20px;
+        background-color:rgb(238, 96, 111);
+        border : 0;
+    }
+    .productDesc{
+        border : 0.5px solid grey;
+        height:fit-content;
+        max-width: 850px;
+        margin: 30px auto;
+        padding:20px;
+        box-shadow: 0 4px 8px 0 rgba(226, 18, 18, 0.2), 0 6px 20px 0 rgba(226, 9, 9, 0.19);
+        border-radius: 5px;
         
-        <a href='/product/<%=product._id%>/endbid'>End Bidding</a>
+    }
+
+    #table{
+        max-width: 850px;
+        margin : 30px auto;
+    }
+
+
+</style>
+
+<br><br>
+
+    <div class='card'>
+
+        <div class='cardImage'>
+            <img src="data:image/<%=product.image.contentType %>;base64, 
+            <%=product.image.data.toString('base64') %>" width="250" height="250" alt="Image"> 
+        </div>
+
+
+        <div class='cardDesc'>
+            <h2 style='color:rgb(238, 96, 111);'><%=product.name%></h2>
+            <p><strong>Owner : </strong><%=product.owner.username%></p>
+            <p><strong>Tag : </strong><%=product.tag%> </p>
         
-    <% } else { %> 
-
-        <p>Make sure to collect Money from the highest bidder </p>
-
-    <% } %> 
-
-
-
-
-    <a href='/product/<%=product._id%>/update'>Edit product details</a>
-
-    <br><br>
-
-    <form action='/product/<%=product._id%>/delete?_method=DELETE' method='POST'>
+            <p><strong>Starting price : </strong>₹ <%=product.startPrice%> </p>
     
-    <button>DELETE</button>
+            <% if(product.bids.length!=0){ %> 
+                <p><strong>Highest Bidder : </strong><%=product.highestBid.owner.username%></p>
+                <p><strong>Highest Bid Price : </strong>₹ <%=product.highBidPrice%></p>
     
-    </form>
+            <% } %> 
+    
+    
+    
+            <% let deadlineDate= product.bidDeadline %> 
+            <% let date = new Date(deadlineDate),month = ("0" + (date.getMonth() + 1)).slice(-2),day = ("0" + date.getDate()).slice(-2); %> 
+            <% date = [day,month,date.getFullYear()].join("-") %> 
+            <% let time = new Date(deadlineDate) , hour = ("0" + time.getHours()).slice(-2) ,minute = ("0" + time.getMinutes()).slice(-2) %> 
+            <% time = [hour, minute].join(":") %> 
+    
+            <p><strong>Deadline for bidding : </strong><%=date%> at <%=time%> (IST) </p>
+    
+    
+            <% if(product.canBid == true){ %>
+            
+                <a role="button" style='background-color:rgb(238, 96, 111);border:0px;margin-top: 8px;' href='/product/<%=product._id%>/endbid' class="btn btn-primary">End Bidding before deadline</a><br><br>
+            
+            <% } else { %> 
 
-    <br><br>
+                <% if(product.bids.length!=0){ %> 
+    
+                    <p>Make sure to collect Money from the highest bidder </p>
+
+                <% } %> 
+    
+            <% } %> 
+    
+
+        
+            <div class='buttons'>
+
+                <a role="button" style='background-color:rgb(238, 96, 111);border:0px;margin-top: 8px;' href='/product/<%=product._id%>/update' class="btn btn-primary">Edit Product Details</a>
+
+                <a role="button" style='background-color:rgb(238, 96, 111);border:0px;margin-top: 8px;' href='/product/<%=product._id%>/delete' class="btn btn-primary">Delete Product</a>
+
+            </div>
 
 
-    <a href='/dashboard'>Back to dashboard</a>
+        </div>
 
-    <br><br>
+    </div>  
 
-    <h4>Bidding History</h4>
+    <div class='productDesc'>
+    <p style='word-wrap: break-word'><strong>Product Description: </strong><%=product.description%></p>
+    </div><br>
+
+
+    <h4 style='color:rgb(238, 96, 111);text-align: center;'>Bidding History</h4>
 
     <% if(product.bids.length==0){ %> 
-        <p> No one has bidded for this product yet! </p>
+        <p style='color:rgb(238, 96, 111);text-align: center;'> No one has bidded for this product yet! </p>
     <% } else { %>
-        <ul>
 
-            <% for(let i= product.bids.length-1 ; i>=0 ; i--){ %> 
-                
-                <li><%=product.bids[i].owner.username%> has bidded this product for rupees <%=product.bids[i].price%> at <%=product.bids[i].createdAt%></li>
-            
-            <% } %> 
+    <table id='table' class="table table-striped table-hover">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Bidder Name</th>
+              <th scope="col">Bidded Amount</th>
+              <th scope="col">Bidded at</th>
+            </tr>
+          </thead>
 
-        </ul>
-        
+          <% for(let j=1,i= product.bids.length-1 ; i>=0 ; i--,j++){ %>
+
+            <tbody>
+                <tr>
+                    <th scope="row"><%=j%> </th>
+                    <td><%=product.bids[i].owner.username%></td>
+                    <td>₹ <%=product.bids[i].price%></td>
+                    <td><%=product.bids[i].createdAt.toLocaleDateString()%> at <%=product.bids[i].createdAt.toLocaleTimeString()%> </td>
+                </tr>
+          </tbody>
+
+          <% } %> 
+    
+    </table>
+
     <% } %> 
 
