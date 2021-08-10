@@ -67,8 +67,8 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Product</th>
-              <th scope="col">Starting Price (in ₹)  </th>
-              <th scope="col">Current Bidding Price (in ₹)</th>    
+              <th scope="col">Starting Price</th>
+              <th scope="col">Current Bidding Price</th>    
               <th scope="col">Product added at</th>
               
             </tr>
@@ -80,8 +80,8 @@
                     <tr>
                         <th scope="row"><%=i+1%> </th>
                         <td><%=currentUser.products[i].name%> </td>
-                        <td><%=currentUser.products[i].startPrice%></td>
-                        <td><%=currentUser.products[i].highBidPrice%></td>
+                        <td>₹ <%=currentUser.products[i].startPrice%></td>
+                        <td>₹ <%=currentUser.products[i].highBidPrice%></td>
                         <td><%=currentUser.products[i].createdAt.toLocaleDateString()%> at <%=currentUser.products[i].createdAt.toLocaleTimeString()%></td>
                     </tr>
                 </tbody>

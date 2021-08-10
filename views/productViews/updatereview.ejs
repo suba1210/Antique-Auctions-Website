@@ -1,17 +1,54 @@
 <% layout('layouts/boilerplate')%> 
 
-<form action='/product/<%=product._id%>/review/<%=review._id%>/edit' method='POST'>
+<style>
 
-    <label>Rating </label>
+    .align{
+        border : 0.5px solid grey;
+        height:fit-content;
+        max-width: 650px;
+        margin: 30px auto;
+        padding:20px;
+        box-shadow: 0 4px 8px 0 rgba(226, 18, 18, 0.2), 0 6px 20px 0 rgba(226, 9, 9, 0.19);
+        border-radius: 5px;
+    }
+    #center{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #centeralign{
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 550px;
+        margin : auto ; 
+    }
+    textarea{
+        padding:8px;
+    }
+
+
+
+
+</style>
+<br><br>
+<div class='align'>
+<div id='centeralign'>
+<form action='/product/<%=product._id%>/review/<%=review._id%>/edit' method="POST">
     <div class="slidecontainer">
-        <input type="range" min="1" max="5" class="slider" value='<%=review.rating%>'  name='rating' id="myRange" required>
-        <p>Rating: <span id="demo"></span> out of 5 </p>
-    </div> <br><br>
-    <label for='review'>Comment</label><br>
-    <textarea id='review' name='review' required><%=review.comment%></textarea>
-    <button type='submit'>Submit</button>
-
+        <p><strong style='color:rgb(238, 96, 111);'>Rating : </strong><span id="demo"></span> out of 5 </p>
+        <input style='width:250px' type="range" min="1" max="5" class="slider" value='1' name='rating' id="myRange" value='<%=review.rating%>'   required>         
+    </div><br>
+    <label for='review'><strong style='color:rgb(238, 96, 111);'>Comment : </strong></label><br>
+    <textarea style='width:250px;border:2px solid rgb(238, 96, 111);' id='review' name='review' required><%=review.comment%></textarea><br><br>
+    <div id='center'>
+        <button class='btn btn-danger' style="width:150px;background-color:rgb(238, 96, 111);" type='submit'>Update Comment</button>
+    </div><br>
+</div>
+</div>
 </form>
+</div>
 
 
 

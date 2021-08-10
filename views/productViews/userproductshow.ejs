@@ -62,6 +62,44 @@
     .slider:hover {
         opacity: 1;
     }
+    #centeralign{
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 550px;
+        margin : auto ; 
+    }
+    .ratingDesc{
+        border : 0.5px solid grey;
+        height:fit-content;
+        max-width: 650px;
+        margin: 30px auto;
+        padding:20px;
+        box-shadow: 0 4px 8px 0 rgba(226, 18, 18, 0.2), 0 6px 20px 0 rgba(226, 9, 9, 0.19);
+        border-radius: 5px;
+    }
+    #center{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .allcomments{
+        border : 0.5px solid grey;
+        height:fit-content;
+        max-width: 550px;
+        margin: 30px auto;
+        padding:12px;
+        box-shadow: 0 4px 8px 0 rgba(226, 18, 18, 0.2), 0 6px 20px 0 rgba(226, 9, 9, 0.19);
+        border-radius: 5px;
+    }
+    textarea{
+        padding:8px;
+    }
+    p,h2,h3,h4{
+        word-wrap: break-word;
+    }
+
 
 
 </style>
@@ -97,7 +135,7 @@
 
             <% } %> 
 
-            <p><strong>Overall Rating : </strong><%=sum%>/5</p>
+            <p><strong>Overall Rating : </strong><%=sum.toFixed(2)%>/5</p>
             <p><strong>Starting price : </strong>₹ <%=product.startPrice%> </p>
     
             <% if(product.bids.length!=0){ %> 
@@ -113,7 +151,9 @@
             <% let time = new Date(deadlineDate) , hour = ("0" + time.getHours()).slice(-2) ,minute = ("0" + time.getMinutes()).slice(-2) %> 
             <% time = [hour, minute].join(":") %> 
     
+            <% if(product.canBid===true){ %> 
             <p><strong>Deadline for bidding : </strong><%=date%> at <%=time%> (IST) </p>
+            <% } %> 
     
         </div>
 
@@ -139,7 +179,7 @@
                     </div>
                 </div>
                     
-                    <button class='btn btn-primary' style='width:40%;margin:10px;border : 0;background-color:rgb(238, 96, 111);' type='submit'>Bid</button>
+                    <button class='btn btn-danger' style='width:40%;margin:10px;border : 0;background-color:rgb(238, 96, 111);' type='submit'>Bid</button>
                 </div>
     
             </form>
@@ -189,61 +229,57 @@
 
     <% } %> 
 
-<br><br>
+<br><hr>
 
-    <h3>Add your Comments</h3>
+    <h4 style='color:rgb(238, 96, 111);text-align: center;'>Add your Comments</h4>
 
-    <form action='/product/<%=product._id%>/addreview' method="POST">
+    <div  class='ratingDesc'>
+        <div id='centeralign'>
+        <form action='/product/<%=product._id%>/addreview' method="POST">
 
-        <label>Rating </label>
-        <div class="slidecontainer">
-            <input type="range" min="1" max="5" class="slider" value='1' name='rating' id="myRange" required>
-            <p>Rating: <span id="demo"></span> out of 5 </p>
-        </div> <br><br>
-        <label for='review'>Comment</label><br>
-        <textarea id='review' name='review' required></textarea>
+            <div class="slidecontainer">
+                <p><strong style='color:rgb(238, 96, 111);'>Rating : </strong><span id="demo"></span> out of 5 </p>
+                <input style='width:250px' type="range" min="1" max="5" class="slider" value='1' name='rating' id="myRange" required>         
+            </div><br>
+            <label for='review'><strong style='color:rgb(238, 96, 111);'>Comment : </strong></label><br>
+            <textarea style='width:250px;border:2px solid rgb(238, 96, 111);' id='review' name='review' required></textarea><br><br>
+            <div id='center'>
+                <button class='btn btn-danger' style="width:150px;background-color:rgb(238, 96, 111);" type='submit'>Comment</button>
+            </div><br>
+        </div>
+        </form>
+    </div>
 
-        <button type='submit'>Submit</button>
 
-    </form>
+   <br><br>
 
-    <br><br>
+   <h4 style='color:rgb(238, 96, 111);text-align: center;'>All Comments</h4>
 
-    <h3>Comments</h3>
-
-    <br>
-
-    <% for(review of product.reviews){ %>
+   <% if(product.reviews.length==0){ %>
         
-        <p><%=review.user.username%></p>
-        <p>Rating : <%=review.rating%> </p>
-        <p>
-            Comment : <%=review.comment%> 
-        </p>
+    <p style='color:rgb(238, 96, 111);text-align: center;'> No one has commented on this product yet! </p>
+    
+    <% } else { %> 
+
+
+   <% for(review of product.reviews){ %>
+
+    <div class='allcomments'>
+
+        <p style='color:rgb(238, 96, 111);font-weight: bold;'><%=review.user.username%></p><span>at <%=review.updatedAt.toLocaleDateString()%> <%=review.updatedAt.toLocaleTimeString()%>  </span><hr>
+        <p><strong style='color:rgb(238, 96, 111);'>Rating : </strong><%=review.rating%>/5</p>
+        <p><strong style='color:rgb(238, 96, 111);'>Comment : </strong><%=review.comment%></p>
+
         <% if(review.user.equals(currentUser._id)){ %> 
-        <a href='/product/<%=product._id%>/review/<%=review._id%>/delete'>Delete</a>
-        <br>
-        <a href='/product/<%=product._id%>/review/<%=review._id%>/edit'>Edit</a>
+            <a role='button' style='margin:10px;background-color:rgb(238, 96, 111);' class='btn btn-danger' href='/product/<%=product._id%>/review/<%=review._id%>/delete'>Delete</a>
+            
+            <a role='button'  style='margin:10px;background-color:rgb(238, 96, 111);' class='btn btn-danger' href='/product/<%=product._id%>/review/<%=review._id%>/edit'>Edit</a>
         <% } %> 
 
-
-        <hr>
-        
+    </div>
     <% } %> 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <% } %> 
 
 
 
