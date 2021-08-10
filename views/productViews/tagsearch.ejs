@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate')%> 
+
 <style>
     #head{
         color:blue;
@@ -37,43 +38,17 @@
         margin-left: auto;
     }
     #inputfield{
-        display: inline;
+        display: none;
     }
     #selectfield{
-        display:none;
+        display:inline;
     }
-    #color{
-        color:rgb(238, 96, 111);
-        font-weight: bold;
-    }
-    .sort{
-        margin:10px;
-    }
-    
+
 </style>
 
     <div class='topbar'>
 
-        <div class='sort'>
-        
-            <form action='/sort' method='POST'>
-
-                <label for='sort' style='font-size: 18px;' id='color'>SORT BY : &nbsp</label>
-                <select id='sort' style='width:200px;height:35px;margin-right: 10px;' name='sort'>
-                    <% if(alpha==1){ %>
-                        <option value='alpha'>Alphabetically</option>
-                        <option value='highestbid'>Highest Bidded</option>
-                    <% } else { %>
-                        <option value='highestbid'>Highest Bidded</option>
-                        <option value='alpha'>Alphabetically</option>
-                    <% } %> 
-
-                </select>
-                <button class='btn btn-danger' style='background-color:rgb(238, 96, 111);' type='submit'>Sort</button>
-
-            </form>
-
-        </div>
+        <a role='button' style='margin:10px' class='btn btn-danger' href='/dashboard'>Back to Home</a>
 
         <div class='search'>
 
@@ -98,8 +73,9 @@
 
                 <select name='searchoption' id='selectOption' onchange="return changeInput()">
                     
-                    <option value='Search by name'>Search by name</option>
                     <option value='Search by tag'>Search by tag</option>
+                    <option value='Search by name'>Search by name</option>
+                    
                     
                 </select>
 
@@ -129,7 +105,7 @@
 
     </script>
 
-    <h3 class="mb-5 mt-4 text-center">All Products</h3>
+    <h3 class="mb-5 mt-4 text-center">Products with tag : <%=tag%> </h3>
 
     <% if(products.length!=0){ %> 
 
@@ -165,9 +141,9 @@
 
     <% } else { %> 
 
-        <p style='color:rgb(238, 96, 111);text-align: center;'>Currently no products are in Auction! </p>
+        <p style='color:rgb(238, 96, 111);text-align: center;'>Currently no products are in Auction with the tag '<%=tag%>'!  </p>
 
-        <p style='color:rgb(238, 96, 111);text-align: center;'>Click on <strong>Add New</strong> to add your Antiques for Auction!</p>
+        
 
     <% } %> 
 

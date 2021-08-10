@@ -81,8 +81,9 @@ router.get('/dashboard',checkAuth, async(req,res)=>{
             path : 'owner'
         }
     });
+    const alpha =0;
     const currentUser = await User.findById(req.session.user_id);
-    res.render('productViews/dashboard',{products,currentUser});
+    res.render('productViews/dashboard',{products,currentUser,alpha});
     
 })
 

@@ -28,9 +28,10 @@ router.get('/product/:productid/review/:reviewid/delete', async(req,res)=>{
 })
 
 router.get('/product/:productid/review/:reviewid/edit' , async(req,res)=>{
+    const currentUser = await User.findById(req.session.user_id);
     const product = await Product.findById(req.params.productid);
     const review = await Review.findById(req.params.reviewid);
-    res.render('productViews/updatereview',{product,review});
+    res.render('productViews/updatereview',{product,review,currentUser});
 
 })
 

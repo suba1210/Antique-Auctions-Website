@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate')%> 
+
 <style>
     #head{
         color:blue;
@@ -42,38 +43,12 @@
     #selectfield{
         display:none;
     }
-    #color{
-        color:rgb(238, 96, 111);
-        font-weight: bold;
-    }
-    .sort{
-        margin:10px;
-    }
-    
+
 </style>
 
     <div class='topbar'>
 
-        <div class='sort'>
-        
-            <form action='/sort' method='POST'>
-
-                <label for='sort' style='font-size: 18px;' id='color'>SORT BY : &nbsp</label>
-                <select id='sort' style='width:200px;height:35px;margin-right: 10px;' name='sort'>
-                    <% if(alpha==1){ %>
-                        <option value='alpha'>Alphabetically</option>
-                        <option value='highestbid'>Highest Bidded</option>
-                    <% } else { %>
-                        <option value='highestbid'>Highest Bidded</option>
-                        <option value='alpha'>Alphabetically</option>
-                    <% } %> 
-
-                </select>
-                <button class='btn btn-danger' style='background-color:rgb(238, 96, 111);' type='submit'>Sort</button>
-
-            </form>
-
-        </div>
+        <a role='button' style='margin:10px' class='btn btn-danger' href='/dashboard'>Back to All Products</a>
 
         <div class='search'>
 
@@ -97,13 +72,13 @@
                 </span>
 
                 <select name='searchoption' id='selectOption' onchange="return changeInput()">
-                    
+                
                     <option value='Search by name'>Search by name</option>
                     <option value='Search by tag'>Search by tag</option>
                     
                 </select>
 
-                <button type='submit'>Search</button>
+                <button  type='submit'>Search</button>
 
             </form>
 
@@ -129,7 +104,7 @@
 
     </script>
 
-    <h3 class="mb-5 mt-4 text-center">All Products</h3>
+    <h3 class="mb-5 mt-4 text-center">Products related to the search : <%=name%> </h3>
 
     <% if(products.length!=0){ %> 
 
@@ -165,9 +140,9 @@
 
     <% } else { %> 
 
-        <p style='color:rgb(238, 96, 111);text-align: center;'>Currently no products are in Auction! </p>
+        <p style='color:rgb(238, 96, 111);text-align: center;'> No products found related to your search! </p>
 
-        <p style='color:rgb(238, 96, 111);text-align: center;'>Click on <strong>Add New</strong> to add your Antiques for Auction!</p>
+        
 
     <% } %> 
 
