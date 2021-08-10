@@ -62,6 +62,7 @@ router.post('/search', async(req,res)=>{
     }
     if(searchOption == 'Search by name'){
         const name = req.body.product;
+        if(name!=''){
         const products = await Product.find({ name: new RegExp(name, 'i') }).populate({
             path : 'bids',
             populate : {
@@ -79,6 +80,11 @@ router.post('/search', async(req,res)=>{
             }
         });
         res.render('productViews/namesearch',{products,name});
+        } else {
+            req.flash('error_msg','Please enter something to search!')
+            res.redirect('/dashboard');
+        }
+        
     }
 })
 

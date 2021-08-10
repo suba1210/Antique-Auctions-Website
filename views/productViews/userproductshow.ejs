@@ -115,6 +115,11 @@
 
         <div class='cardDesc'>
             <h2 style='color:rgb(238, 96, 111);'><%=product.name%></h2>
+            <% if(product.canBid==false){ %>
+                
+                <p style='font-weight: bold;color:rgb(238, 96, 111);'>(Bidding ended!)</p>
+
+            <% } %> 
             <p><strong>Owner : </strong><%=product.owner.username%></p>
             <p><strong>Tag : </strong><%=product.tag%> </p>
             <% let sum %> 
@@ -135,7 +140,12 @@
 
             <% } %> 
 
-            <p><strong>Overall Rating : </strong><%=sum.toFixed(2)%>/5</p>
+            <% if(Number.isInteger(sum)){ %> 
+                <p><strong>Overall Rating : </strong><%=sum%>/5</p>
+            <% } else { %> 
+                <p><strong>Overall Rating : </strong><%=sum.toFixed(2)%>/5</p>
+            <% } %> 
+
             <p><strong>Starting price : </strong>₹ <%=product.startPrice%> </p>
     
             <% if(product.bids.length!=0){ %> 

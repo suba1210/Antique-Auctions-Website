@@ -43,22 +43,25 @@
     #selectfield{
         display:none;
     }
+    .search{
+        padding:10px;
+    }
 
 </style>
 
     <div class='topbar'>
 
-        <a role='button' style='margin:10px' class='btn btn-danger' href='/dashboard'>Back to All Products</a>
+        <a role='button' style='margin:10px;height:38px;background-color:rgb(238, 96, 111);' class='btn btn-danger' href='/dashboard'>Back to All Products</a>
 
         <div class='search'>
 
             <form action='/search' method='POST'>
 
-                <input id='inputfield' type='text' name='product' placeholder='Search'>
+                <input id='inputfield' type='text' name='product' placeholder='Search' style='height:35px;margin-right: 10px;'>
 
                 <span id='selectfield'>
 
-                    <select  name='tag' required>
+                    <select  name='tag' style='height:35px;width:200px;margin-right: 10px;' >
                         <option value="Ancient Sculptures">Ancient Sculptures</option>
                         <option value='Antique Jewelry'>Antique Jewelry</option>
                         <option value='Ancient Clocks'>Ancient Clocks</option>
@@ -71,14 +74,14 @@
 
                 </span>
 
-                <select name='searchoption' id='selectOption' onchange="return changeInput()">
+                <select name='searchoption' id='selectOption' onchange="return changeInput()" style='height:35px;width:200px;margin-right: 10px;'>
                 
                     <option value='Search by name'>Search by name</option>
                     <option value='Search by tag'>Search by tag</option>
                     
                 </select>
 
-                <button  type='submit'>Search</button>
+                <button  class='btn btn-danger' type='submit' style='height:35px;background-color:rgb(238, 96, 111);'>Search</button>
 
             </form>
 
@@ -104,7 +107,9 @@
 
     </script>
 
-    <h3 class="mb-5 mt-4 text-center">Products related to the search : <%=name%> </h3>
+<hr>
+
+    <h3 class="mb-5 mt-4 text-center"  style='color:rgb(238, 96, 111);'>Products related to the search : <%=name%> </h3>
 
     <% if(products.length!=0){ %> 
 
@@ -119,6 +124,11 @@
 
             <div class='cardDesc' >
                 <p style="font-weight: bold;"><%=product.name%></p>
+                <% if(product.canBid==false){ %>
+                
+                    <p style='font-weight: bold;color:rgb(238, 96, 111);'>(Bidding ended!)</p>
+    
+                <% } %> 
                 <p><span style="font-weight: bold;">Tag : </span><%=product.tag%></p>
                 <p><span style="font-weight: bold;">Current Bidding Price : </span>₹ <%=product.highBidPrice%> </p>
                 <% if(!product.highestBid){ %>

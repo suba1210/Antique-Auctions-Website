@@ -49,6 +49,10 @@
     .sort{
         margin:10px;
     }
+    .search{
+        padding:10px;
+    }
+   
     
 </style>
 
@@ -79,11 +83,11 @@
 
             <form action='/search' method='POST'>
 
-                <input id='inputfield' type='text' name='product' placeholder='Search'>
+                <input id='inputfield' type='text' name='product' placeholder='Search' style='height:35px;margin-right: 10px;'>
 
-                <span id='selectfield'>
+                <span id='selectfield' >
 
-                    <select  name='tag' required>
+                    <select  name='tag' style='height:35px;width:200px;margin-right: 10px;' >
                         <option value="Ancient Sculptures">Ancient Sculptures</option>
                         <option value='Antique Jewelry'>Antique Jewelry</option>
                         <option value='Ancient Clocks'>Ancient Clocks</option>
@@ -96,14 +100,14 @@
 
                 </span>
 
-                <select name='searchoption' id='selectOption' onchange="return changeInput()">
+                <select name='searchoption' id='selectOption' onchange="return changeInput()" style='height:35px;width:200px;margin-right: 10px;'>
                     
                     <option value='Search by name'>Search by name</option>
                     <option value='Search by tag'>Search by tag</option>
                     
                 </select>
 
-                <button type='submit'>Search</button>
+                <button class='btn btn-danger' style='height:35px;background-color:rgb(238, 96, 111);' type='submit'>Search</button>
 
             </form>
 
@@ -129,7 +133,9 @@
 
     </script>
 
-    <h3 class="mb-5 mt-4 text-center">All Products</h3>
+    <hr>
+
+    <h3 class="mb-5 mt-4 text-center" style='color:rgb(238, 96, 111);'>All Products</h3>
 
     <% if(products.length!=0){ %> 
 
@@ -144,6 +150,11 @@
 
             <div class='cardDesc' >
                 <p style="font-weight: bold;"><%=product.name%></p>
+                <% if(product.canBid==false){ %>
+                
+                    <p style='font-weight: bold;color:rgb(238, 96, 111);'>(Bidding ended!)</p>
+    
+                <% } %> 
                 <p><span style="font-weight: bold;">Tag : </span><%=product.tag%></p>
                 <p><span style="font-weight: bold;">Current Bidding Price : </span>₹ <%=product.highBidPrice%> </p>
                 <% if(!product.highestBid){ %>

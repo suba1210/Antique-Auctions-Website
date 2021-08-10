@@ -129,8 +129,7 @@ router.get('/product/:id/update',checkAuth, async(req,res)=>{
 router.put('/product/:id/update',checkAuth,async(req,res)=>{
     const name = req.body.name;
     const description = req.body.description;
-    const startPrice = req.body.startPrice; 
-    const product = await Product.findByIdAndUpdate(req.params.id, {name,description,startPrice});
+    const product = await Product.findByIdAndUpdate(req.params.id, {name,description});
     req.flash("success_msg", "Successfully updated your product!");
     res.redirect(`/product/${req.params.id}/show`)
 })
