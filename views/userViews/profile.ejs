@@ -41,7 +41,7 @@
 
     <div class='cardImage'>
         
-        <% if(currentUser.gender ==="female"){ %>
+        <% if(currentUser.gender =="female"){ %>
             <img class="avatar" width="200" height="200" alt="Image" src="/assets/woman.jpg">
         <% } else{%>
             <img class="avatar" width="200" height="200" alt="Image" src="/assets/man.jpg">
@@ -78,7 +78,7 @@
 
                 <tbody> 
                     <tr>
-                        <th scope="row"><%=i%> </th>
+                        <th scope="row"><%=i+1%> </th>
                         <td><%=currentUser.products[i].name%> </td>
                         <td><%=currentUser.products[i].startPrice%></td>
                         <td><%=currentUser.products[i].highBidPrice%></td>

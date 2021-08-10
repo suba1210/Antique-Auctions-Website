@@ -1,0 +1,27 @@
+<% layout('layouts/boilerplate')%> 
+
+<form action='/product/<%=product._id%>/review/<%=review._id%>/edit' method='POST'>
+
+    <label>Rating </label>
+    <div class="slidecontainer">
+        <input type="range" min="1" max="5" class="slider" value='<%=review.rating%>'  name='rating' id="myRange" required>
+        <p>Rating: <span id="demo"></span> out of 5 </p>
+    </div> <br><br>
+    <label for='review'>Comment</label><br>
+    <textarea id='review' name='review' required><%=review.comment%></textarea>
+    <button type='submit'>Submit</button>
+
+</form>
+
+
+
+
+<script>
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+    
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+    }
+</script>

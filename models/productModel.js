@@ -39,7 +39,11 @@ const ProductSchema = new Schema({
     },
     bidDeadline : {
         type : Date
-    }
+    },
+    reviews : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Review'
+    }]
 },{
     timestamps: true
 });

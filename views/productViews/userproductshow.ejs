@@ -1,6 +1,7 @@
 <% layout('layouts/boilerplate')%> 
 
 <style>
+    
 
     .card{
         display:flex;
@@ -44,6 +45,23 @@
         max-width: 850px;
         margin : 30px auto;
     }
+    .slidecontainer {
+        width: 200px;
+    }
+
+    .slider {
+        width: 100%;
+        height: 15px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
 
 
 </style>
@@ -61,6 +79,25 @@
             <h2 style='color:rgb(238, 96, 111);'><%=product.name%></h2>
             <p><strong>Owner : </strong><%=product.owner.username%></p>
             <p><strong>Tag : </strong><%=product.tag%> </p>
+            <% let sum %> 
+            <% if(product.reviews.length == 0){%>
+                
+                <% sum =0 %> 
+
+            <% } else { %> 
+
+            <% sum = 0 %> 
+            <% for(review of product.reviews ){ %> 
+
+                <% sum=sum+review.rating %> 
+
+            <% } %>
+            
+            <% sum = (sum/(product.reviews.length))%> 
+
+            <% } %> 
+
+            <p><strong>Overall Rating : </strong><%=sum%>/5</p>
             <p><strong>Starting price : </strong>₹ <%=product.startPrice%> </p>
     
             <% if(product.bids.length!=0){ %> 
@@ -151,3 +188,71 @@
     </table>
 
     <% } %> 
+
+<br><br>
+
+    <h3>Add your Comments</h3>
+
+    <form action='/product/<%=product._id%>/addreview' method="POST">
+
+        <label>Rating </label>
+        <div class="slidecontainer">
+            <input type="range" min="1" max="5" class="slider" value='1' name='rating' id="myRange" required>
+            <p>Rating: <span id="demo"></span> out of 5 </p>
+        </div> <br><br>
+        <label for='review'>Comment</label><br>
+        <textarea id='review' name='review' required></textarea>
+
+        <button type='submit'>Submit</button>
+
+    </form>
+
+    <br><br>
+
+    <h3>Comments</h3>
+
+    <br>
+
+    <% for(review of product.reviews){ %>
+        
+        <p><%=review.user.username%></p>
+        <p>Rating : <%=review.rating%> </p>
+        <p>
+            Comment : <%=review.comment%> 
+        </p>
+        <% if(review.user.equals(currentUser._id)){ %> 
+        <a href='/product/<%=product._id%>/review/<%=review._id%>/delete'>Delete</a>
+        <br>
+        <a href='/product/<%=product._id%>/review/<%=review._id%>/edit'>Edit</a>
+        <% } %> 
+
+
+        <hr>
+        
+    <% } %> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+        
+        slider.oninput = function() {
+          output.innerHTML = this.value;
+        }
+    </script>

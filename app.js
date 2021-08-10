@@ -10,6 +10,7 @@ const productRoutes = require('./Routes/productRoutes');
 const userRoutes = require('./Routes/userRoutes');
 const authRoutes = require('./Routes/authRoutes');
 const bidRoutes = require('./Routes/bidRoutes');
+const reviewRoutes = require('./Routes/reviewRoutes')
 
 
 
@@ -66,6 +67,7 @@ app.use(bidRoutes);
 app.use(productRoutes);
 app.use(userRoutes);
 app.use(authRoutes);
+app.use(reviewRoutes);
 
 
 

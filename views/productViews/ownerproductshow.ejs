@@ -63,6 +63,27 @@
             <h2 style='color:rgb(238, 96, 111);'><%=product.name%></h2>
             <p><strong>Owner : </strong><%=product.owner.username%></p>
             <p><strong>Tag : </strong><%=product.tag%> </p>
+
+            <% let sum %> 
+            <% if(product.reviews.length == 0){%>
+                
+                <% sum =0 %> 
+
+            <% } else { %> 
+
+            <% sum = 0 %> 
+            <% for(review of product.reviews ){ %> 
+
+                <% sum=sum+review.rating %> 
+
+            <% } %>
+            
+            <% sum = (sum/(product.reviews.length))%> 
+
+            <% } %> 
+
+            <p><strong>Overall Rating : </strong><%=sum%>/5</p>
+            
         
             <p><strong>Starting price : </strong>₹ <%=product.startPrice%> </p>
     

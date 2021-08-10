@@ -3,6 +3,7 @@ const router = express.Router();
 const Product = require('../models/productModel')
 const User = require('../models/userModel')
 const Bid = require('../models/bidModel');
+const Review = require('../models/reviewModel');
 const path = require('path');
 const fs = require('fs');
 const {checkAuth} =require('../middlewares/checkauth');
@@ -95,6 +96,11 @@ router.get('/product/:id/show',checkAuth,async(req,res)=>{
         path : 'highestBid',
         populate : {
             path : 'owner'
+        }
+    }).populate({
+        path : 'reviews',
+        populate : {
+            path : 'user'
         }
     });
     
