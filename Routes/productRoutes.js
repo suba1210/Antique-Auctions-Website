@@ -48,6 +48,7 @@ router.get('/newproduct',checkAuth,(req,res)=>{
 })
 
 router.post('/newproduct',checkAuth, async(req,res)=>{
+    try{
     upload(req,res,(err) => {
         if(err){
             res.send('error');
@@ -71,10 +72,16 @@ router.post('/newproduct',checkAuth, async(req,res)=>{
                 res.redirect(`/product/${product._id}/show`);
         }
     });
+    } catch(err){
+        console.log(err);
+        req.flash("error_msg", "Couldn't save your product! Try again!");
+        res.redirect('/dashboard');
+    }
 });
 
 router.get('/dashboard',checkAuth, async(req,res)=>{
 
+    try{
     const products = await Product.find({}).sort('-highBidPrice').populate('owner').populate({
         path : 'highestBid',
         populate : {
@@ -84,10 +91,16 @@ router.get('/dashboard',checkAuth, async(req,res)=>{
     const alpha =0;
     const currentUser = await User.findById(req.session.user_id);
     res.render('productViews/dashboard',{products,currentUser,alpha});
+    } catch(err){
+        console.log(err);
+        req.flash('error_msg', "Something went wrong, Try again!");
+        res.redirect('/login');
+    }
     
 })
 
 router.get('/product/:id/show',checkAuth,async(req,res)=>{
+    try{
     const product = await Product.findById(req.params.id).populate({
         path : 'bids',
         populate : {
@@ -119,36 +132,66 @@ router.get('/product/:id/show',checkAuth,async(req,res)=>{
     } else {
         res.render('productViews/userproductshow',{product,currentUser});
     }  
+    } catch(err){
+        console.log(err);
+        req.flash('error_msg','Something went wrong! Try again!');
+        res.redirect('/dashboard');
+    }
 })
 
 router.get('/product/:id/update',checkAuth, async(req,res)=>{
+    try{
     const product = await Product.findById(req.params.id);
     res.render('productViews/updateproduct',{product});
+    } catch(err){
+        console.log(err);
+        req.flash('error_msg','Something went wrong! Try again!');
+        res.redirect('/dashboard');
+    }
 })
 
 router.put('/product/:id/update',checkAuth,async(req,res)=>{
+    try{
     const name = req.body.name;
     const description = req.body.description;
     const product = await Product.findByIdAndUpdate(req.params.id, {name,description});
     req.flash("success_msg", "Successfully updated your product!");
     res.redirect(`/product/${req.params.id}/show`)
+    } catch(err){
+    console.log(err);
+    req.flash('error_msg','Something went wrong! Try again!');
+    res.redirect('/dashboard');
+    }
 })
 
 router.get('/product/:id/delete',checkAuth,async(req,res)=>{
+    try{
     const product = await Product.findById(req.params.id).populate('owner');
     const owner = await User.findById(product.owner._id);
     const index = await owner.products.indexOf(product._id);
     await owner.products.splice(index, 1);
     await owner.save();
     await Product.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', 'Your product is deleted!');
     res.redirect('/dashboard');
+    }catch(err){
+    console.log(err);
+    req.flash('error_msg','Something went wrong! Try again!');
+    res.redirect('/dashboard');
+    }
 })
 
 router.get('/product/:id/endbid', checkAuth, async(req,res)=>{
+    try{
     const product = await Product.findById(req.params.id);
     product.canBid = false ; 
     await product.save();
     res.redirect(`/product/${product._id}/show`);
+    }catch(err){
+    console.log(err);
+    req.flash('error_msg','Something went wrong! Try again!');
+    res.redirect('/dashboard');
+    }
 })
 
 

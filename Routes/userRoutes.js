@@ -6,17 +6,24 @@ const User = require('../models/userModel');
 const Product = require('../models/productModel');
 const Bid = require('../models/bidModel');
 const Review = require('../models/reviewModel');
+const {checkAuth} =require('../middlewares/checkauth');
 
 
-router.get('/me/profile', async(req,res)=>{
+router.get('/me/profile',checkAuth, async(req,res)=>{
+    try{
     const currentUser = await User.findById(req.session.user_id).populate('products');
     res.render('userViews/profile',{currentUser});
+    } catch(err){
+        console.log(err);
+        req.flash('error_msg','Something went wrong, Try again!');
+        res.redirect('/dashboard');
+    }
 
 })
 
 
-router.get('/dashboard/alpha', async(req,res)=>{
-
+router.get('/dashboard/alpha',checkAuth, async(req,res)=>{
+    try{
     const products = await Product.find({}).collation({locale:'en',strength: 2}).sort({name : 1}).populate('owner').populate({
         path : 'highestBid',
         populate : {
@@ -26,19 +33,31 @@ router.get('/dashboard/alpha', async(req,res)=>{
     const alpha=1;
     const currentUser = await User.findById(req.session.user_id);
     res.render('productViews/dashboard',{products,currentUser,alpha});
+    } catch(err){
+    console.log(err);
+    req.flash('error_msg','Something went wrong, Try again!');
+    res.redirect('/dashboard');
+    }
 
 })
 
 router.post('/sort' , async(req,res)=>{
+    try{
     if(req.body.sort=='highestbid'){
         res.redirect('/dashboard');
     }
     if(req.body.sort == 'alpha'){
         res.redirect('/dashboard/alpha');
     }
+    } catch(err){
+        console.log(err);
+    req.flash('error_msg','Something went wrong, Try again!');
+    res.redirect('/dashboard');
+    }
 })
 
 router.post('/search', async(req,res)=>{
+    try{
     const searchOption = req.body.searchoption;
     if(searchOption == 'Search by tag'){
         const tag = req.body.tag;
@@ -85,6 +104,11 @@ router.post('/search', async(req,res)=>{
             res.redirect('/dashboard');
         }
         
+    }
+} catch(err){
+    console.log(err);
+    req.flash('error_msg','Something went wrong, Try again!');
+    res.redirect('/dashboard');
     }
 })
 

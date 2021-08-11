@@ -69,6 +69,9 @@ app.use(userRoutes);
 app.use(authRoutes);
 app.use(reviewRoutes);
 
+app.get('/', async(req,res)=>{
+    res.redirect('/login');
+})
 
 
 app.listen(3000, ()=>{
