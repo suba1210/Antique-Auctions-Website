@@ -1,6 +1,7 @@
 # Antique-Auctions-Website
 
-PROBLEM STATEMENT: You are organizing an exhibition for setting up an auction for ancient relics. Unfortunately, due to the present Covid Pandemic, you are unable to conduct a physical event for your exhibition. So, you decided to move the setup to a Virtual Environment. You have to create a website to organize your Auction online. The website should allow different users to participate and put-up items in your exhibition.
+PROBLEM STATEMENT: 
+You are organizing an exhibition for setting up an auction for ancient relics. Unfortunately, due to the present Covid Pandemic, you are unable to conduct a physical event for your exhibition. So, you decided to move the setup to a Virtual Environment. You have to create a website to organize your Auction online. The website should allow different users to participate and put-up items in your exhibition.
 
 ## Getting Started
 
